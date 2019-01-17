@@ -18,7 +18,7 @@
 package com.google.cloudy.retention.controller;
 
 import com.google.cloudy.retention.controller.pojo.request.ExecutionEventRequest;
-import com.google.cloudy.retention.controller.pojo.response.ExecutionEventResponse;
+import com.google.cloudy.retention.controller.pojo.response.EventResponse;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -48,8 +48,10 @@ public class EventsController extends BaseController {
 
       // TODO: Perform business logic
 
-      ExecutionEventResponse response = new ExecutionEventResponse();
+      EventResponse response = new EventResponse();
+
       response.setRequestUuid(requestUuid);
+      response.setMessage("Execution event registered and awaiting processing");
 
       return Response.status(200).entity(response).build();
     } catch (HttpException exception) {

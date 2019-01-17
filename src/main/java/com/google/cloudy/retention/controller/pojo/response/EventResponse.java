@@ -17,5 +17,16 @@
 
 package com.google.cloudy.retention.controller.pojo.response;
 
-public class ExecutionEventResponse extends BaseHttpResponse {
+import com.google.gcs.sdrs.controller.pojo.response.BaseHttpResponse;
+
+public class EventResponse extends BaseHttpResponse {
+  private String message;
+
+  public String getMessage() {
+    return message;
+  }
+
+  public void setMessage(String message) {
+    this.message = message;
+  }
 }
