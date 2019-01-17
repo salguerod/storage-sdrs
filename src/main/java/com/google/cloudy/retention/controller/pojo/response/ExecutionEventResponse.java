@@ -17,5 +17,5 @@
 
 package com.google.cloudy.retention.controller.pojo.response;
 
-public class EventExecutionResponse extends BaseHttpResponse {
+public class ExecutionEventResponse extends BaseHttpResponse {
 }

@@ -17,8 +17,8 @@
 
 package com.google.cloudy.retention.controller;
 
-import com.google.cloudy.retention.controller.pojo.request.EventExecutionRequest;
-import com.google.cloudy.retention.controller.pojo.response.EventExecutionResponse;
+import com.google.cloudy.retention.controller.pojo.request.ExecutionEventRequest;
+import com.google.cloudy.retention.controller.pojo.response.ExecutionEventResponse;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -35,20 +35,20 @@ public class EventsController extends BaseController {
 
   private static final Logger logger = LoggerFactory.getLogger(EventsController.class);
 
-  /** Accepts a request to invoke a policy or process a delete marker */
+  /** Accepts a request to invoke a policy or process a manual delete */
   @POST
   @Path("/execution")
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  public Response executeEvent(EventExecutionRequest request) {
+  public Response executeEvent(ExecutionEventRequest request) {
     String requestUuid = generateRequestUuid();
 
     try {
-      validateEventExecution(request);
+      validateExecutionEvent(request);
 
       // TODO: Perform business logic
 
-      EventExecutionResponse response = new EventExecutionResponse();
+      ExecutionEventResponse response = new ExecutionEventResponse();
       response.setRequestUuid(requestUuid);
 
       return Response.status(200).entity(response).build();
@@ -57,7 +57,7 @@ public class EventsController extends BaseController {
     }
   }
 
-  private void validateEventExecution(EventExecutionRequest request) throws ValidationException {
+  private void validateExecutionEvent(ExecutionEventRequest request) throws ValidationException {
     // TODO
     throw new NotImplementedException();
   }

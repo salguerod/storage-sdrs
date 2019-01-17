@@ -15,7 +15,21 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, and is not intended for production use.
  */
 
-package com.google.cloudy.retention.controller.pojo.request;
+package com.google.cloudy.retention.enums;
 
-public class EventExecutionRequest {
+public enum ExecutionEventTypes {
+  GLOBAL("GLOBAL"),
+  DATASET("DATASET"),
+  AD_HOC("AD-HOC");
+
+  private final String value;
+
+  ExecutionEventTypes(final String value) {
+    this.value = value;
+  }
+
+  @Override
+  public String toString() {
+    return this.value;
+  }
 }
