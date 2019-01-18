@@ -17,8 +17,12 @@
 
 package com.google.gcs.sdrs.controller;
 
+import com.google.cloudy.retention.controller.validation.FieldValidations;
+import com.google.cloudy.retention.controller.validation.ValidationResult;
 import com.google.gcs.sdrs.controller.pojo.request.ExecutionEventRequest;
 import com.google.gcs.sdrs.controller.pojo.response.EventResponse;
+import java.util.LinkedList;
+import java.util.List;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -27,7 +31,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 /** Controller for exposing event based behavior */
 @Path("/events")
@@ -51,7 +54,7 @@ public class EventsController extends BaseController {
       EventResponse response = new EventResponse();
 
       response.setRequestUuid(requestUuid);
-      response.setMessage("Execution event registered and awaiting processing");
+      response.setMessage("Event registered and awaiting execution.");
 
       return Response.status(200).entity(response).build();
     } catch (HttpException exception) {
@@ -60,7 +63,30 @@ public class EventsController extends BaseController {
   }
 
   private void validateExecutionEvent(ExecutionEventRequest request) throws ValidationException {
-    // TODO
-    throw new NotImplementedException();
+    List<ValidationResult> partialValidations = new LinkedList<>();
+
+    if (request.getType() == null) {
+      partialValidations.add(ValidationResult.fromString("type must be provided"));
+    } else {
+      switch (request.getType()) {
+        case GLOBAL:
+          break;
+        case DATASET:
+          partialValidations.add(
+              FieldValidations.validateDataStorageName(request.getDataStorageName()));
+          break;
+        case AD_HOC:
+          partialValidations.add(
+              FieldValidations.validateDataStorageName(request.getDataStorageName()));
+          break;
+        default:
+          break;
+      }
+    }
+
+    ValidationResult result = ValidationResult.compose(partialValidations);
+    if (result.validationMessages.size() > 0) {
+      throw new ValidationException(result);
+    }
   }
 }

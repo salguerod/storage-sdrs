@@ -18,11 +18,15 @@
 
 package com.google.gcs.sdrs.controller;
 
+import com.google.cloudy.retention.controller.validation.FieldValidations;
+import com.google.cloudy.retention.controller.validation.ValidationResult;
 import com.google.gcs.sdrs.controller.pojo.request.RetentionRuleCreateRequest;
 import com.google.gcs.sdrs.controller.pojo.request.RetentionRuleUpdateRequest;
 import com.google.gcs.sdrs.controller.pojo.response.RetentionRuleCreateResponse;
 import com.google.gcs.sdrs.controller.pojo.response.RetentionRuleUpdateResponse;
 import com.google.gcs.sdrs.enums.RetentionRuleTypes;
+import java.util.LinkedList;
+import java.util.List;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -40,7 +44,6 @@ public class RetentionRulesController extends BaseController {
 
   private static final Logger logger = LoggerFactory.getLogger(RetentionRulesController.class);
   private static final Integer RETENTION_MAX_VALUE = 200;
-  private static final String STORAGE_PREFIX = "gs://";
 
   /** CRUD create endpoint */
   @POST
@@ -102,75 +105,58 @@ public class RetentionRulesController extends BaseController {
    * @throws ValidationException when the request is invalid
    */
   private void validateCreate(RetentionRuleCreateRequest request) throws ValidationException {
-    ValidationException validation = new ValidationException();
+    List<ValidationResult> partialValidations = new LinkedList<>();
 
-    applyRetentionPeriodValidation(validation, request.getRetentionPeriod());
+    partialValidations.add(validateRetentionPeriod(request.getRetentionPeriod()));
 
     if (request.getType() == null) {
-      validation.addValidationError("type must be provided");
+      partialValidations.add(ValidationResult.fromString("type must be provided"));
     } else {
       switch (request.getType()) {
         case GLOBAL:
           break;
         case DATASET:
-          if (request.getDataStorageName() == null) {
-            validation.addValidationError("dataStorageName must be provided if type is DATASET");
-          } else {
-            if (!request.getDataStorageName().startsWith(STORAGE_PREFIX)) {
-              validation.addValidationError(
-                  String.format("dataStorageName must start with '%s'", STORAGE_PREFIX));
-            } else {
-              // DataStorageName should match gs://<bucket_name>/<dataset_name>
-              String bucketAndDataset =
-                  request.getDataStorageName().substring(STORAGE_PREFIX.length());
-              String[] pathSegments = bucketAndDataset.split("/");
-
-              if (pathSegments[0].length() == 0) {
-                validation.addValidationError("dataStorageName must include a bucket name");
-              }
-              if (pathSegments.length < 2 || pathSegments[1].length() == 0) {
-                validation.addValidationError("dataStorageName must include a dataset name");
-              }
-            }
-          }
+          partialValidations.add(
+              FieldValidations.validateDataStorageName(request.getDataStorageName()));
 
           if (request.getProjectId() == null) {
-            validation.addValidationError("projectId must be provided if type is DATASET");
+            partialValidations.add(
+                ValidationResult.fromString("projectId must be provided if type is DATASET"));
           }
-
           break;
         default:
           break;
       }
     }
 
-    if (validation.getValidationErrorCount() > 0) {
-      throw validation;
+    ValidationResult result = ValidationResult.compose(partialValidations);
+
+    if (result.validationMessages.size() > 0) {
+      throw new ValidationException(result);
     }
   }
 
   private void validateUpdate(RetentionRuleUpdateRequest request) throws ValidationException {
-    ValidationException validation = new ValidationException();
+    ValidationResult result = validateRetentionPeriod(request.getRetentionPeriod());
 
-    applyRetentionPeriodValidation(validation, request.getRetentionPeriod());
-
-    if (validation.getValidationErrorCount() > 0) {
-      throw validation;
+    if (result.validationMessages.size() > 0) {
+      throw new ValidationException(result);
     }
   }
 
-  private void applyRetentionPeriodValidation(
-      ValidationException validation, Integer retentionPeriod) {
+  private ValidationResult validateRetentionPeriod(Integer retentionPeriod) {
+    List<String> messages = new LinkedList<>();
     if (retentionPeriod == null) {
-      validation.addValidationError("retentionPeriod must be provided");
+      messages.add("retentionPeriod must be provided");
     } else {
       if (retentionPeriod < 0) {
-        validation.addValidationError("retentionPeriod must be at least 0");
+        messages.add("retentionPeriod must be at least 0");
       }
       if (retentionPeriod > RETENTION_MAX_VALUE) {
-        validation.addValidationError(
+        messages.add(
             String.format("retentionPeriod exceeds maximum value of %d", RETENTION_MAX_VALUE));
       }
     }
+    return new ValidationResult(messages);
   }
 }

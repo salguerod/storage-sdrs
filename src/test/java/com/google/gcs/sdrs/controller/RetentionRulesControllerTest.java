@@ -18,11 +18,12 @@
 
 package com.google.gcs.sdrs.controller;
 
-import com.google.gcs.sdrs.controller.pojo.request.RetentionRuleUpdateRequest;
-import com.google.gcs.sdrs.controller.pojo.response.RetentionRuleUpdateResponse;
+import com.google.cloudy.retention.controller.validation.ValidationResult;
 import com.google.gcs.sdrs.controller.pojo.request.RetentionRuleCreateRequest;
+import com.google.gcs.sdrs.controller.pojo.request.RetentionRuleUpdateRequest;
 import com.google.gcs.sdrs.controller.pojo.response.ErrorResponse;
 import com.google.gcs.sdrs.controller.pojo.response.RetentionRuleCreateResponse;
+import com.google.gcs.sdrs.controller.pojo.response.RetentionRuleUpdateResponse;
 import com.google.gcs.sdrs.enums.RetentionRuleTypes;
 import javax.ws.rs.core.Response;
 import org.junit.Before;
@@ -57,11 +58,11 @@ public class RetentionRulesControllerTest {
 
   @Test
   public void generateExceptionResponseWithValidInputReturnsResponseWithFields() {
-    HttpException testException = new ValidationException();
+    HttpException testException = new ValidationException(ValidationResult.fromString("test"));
     Response response =
         controller.generateExceptionResponse(testException, "requestUuid");
     assertEquals(response.getStatus(), 400);
-    assertEquals(((ErrorResponse) response.getEntity()).getMessage(), "Invalid input: ");
+    assertEquals(((ErrorResponse) response.getEntity()).getMessage(), "Invalid input: test");
   }
 
   @Test
@@ -130,60 +131,6 @@ public class RetentionRulesControllerTest {
     Response response = controller.create(rule);
     assertEquals(response.getStatus(), 400);
     assertTrue(((ErrorResponse) response.getEntity()).getMessage().contains("projectId"));
-  }
-
-  @Test
-  public void createDatasetRuleMissingDataStorageFails() {
-    RetentionRuleCreateRequest rule = new RetentionRuleCreateRequest();
-    rule.setType(RetentionRuleTypes.DATASET);
-    rule.setDatasetName("datasetName");
-    rule.setRetentionPeriod(123);
-    rule.setProjectId("projectId");
-    Response response = controller.create(rule);
-    assertEquals(response.getStatus(), 400);
-    assertTrue(((ErrorResponse) response.getEntity()).getMessage().contains("dataStorageName"));
-  }
-
-  @Test
-  public void createDatasetRuleMissingDataStoragePrefixFails() {
-    RetentionRuleCreateRequest rule = new RetentionRuleCreateRequest();
-    rule.setType(RetentionRuleTypes.DATASET);
-    rule.setDatasetName("datasetName");
-    rule.setDataStorageName("bucket/dataset");
-    rule.setRetentionPeriod(123);
-    rule.setProjectId("projectId");
-    Response response = controller.create(rule);
-    assertEquals(response.getStatus(), 400);
-    assertTrue(((ErrorResponse) response.getEntity()).getMessage().contains("dataStorageName"));
-    assertTrue(((ErrorResponse) response.getEntity()).getMessage().contains("gs://"));
-  }
-
-  @Test
-  public void createDatasetRuleMissingDataStorageBucketFails() {
-    RetentionRuleCreateRequest rule = new RetentionRuleCreateRequest();
-    rule.setType(RetentionRuleTypes.DATASET);
-    rule.setDatasetName("datasetName");
-    rule.setDataStorageName("gs:///dataset");
-    rule.setRetentionPeriod(123);
-    rule.setProjectId("projectId");
-    Response response = controller.create(rule);
-    assertEquals(response.getStatus(), 400);
-    assertTrue(((ErrorResponse) response.getEntity()).getMessage().contains("dataStorageName"));
-    assertTrue(((ErrorResponse) response.getEntity()).getMessage().contains("bucket"));
-  }
-
-  @Test
-  public void createDatasetRuleMissingDataStorageDatasetFails() {
-    RetentionRuleCreateRequest rule = new RetentionRuleCreateRequest();
-    rule.setType(RetentionRuleTypes.DATASET);
-    rule.setDatasetName("datasetName");
-    rule.setDataStorageName("gs://bucket");
-    rule.setRetentionPeriod(123);
-    rule.setProjectId("projectId");
-    Response response = controller.create(rule);
-    assertEquals(response.getStatus(), 400);
-    assertTrue(((ErrorResponse) response.getEntity()).getMessage().contains("dataStorageName"));
-    assertTrue(((ErrorResponse) response.getEntity()).getMessage().contains("dataset"));
   }
 
   @Test
