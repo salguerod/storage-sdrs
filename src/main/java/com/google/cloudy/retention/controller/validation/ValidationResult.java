@@ -25,14 +25,17 @@ import java.util.List;
 public class ValidationResult {
 
   /**
-   * An immutable list of user actionable changes required to pass a validation check. If it is
-   * empty, it should be treated as valid.
+   * An immutable list of user actionable changes required to pass a validation check.
    */
   public final List<String> validationMessages;
+
+  /** Flag indicating that validation checks were passed */
+  public final boolean isValid;
 
   /** Creates a ValidationResult */
   public ValidationResult(List<String> validationMessages) {
     this.validationMessages = Collections.unmodifiableList(validationMessages);
+    this.isValid = validationMessages.size() == 0;
   }
 
   /** Create a ValidationResult from a composite of partial results. */

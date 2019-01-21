@@ -26,28 +26,35 @@ public class FieldValidationsTest {
 
   @Test
   public void createDatasetRuleMissingDataStorageFails() {
-    ValidationResult result = FieldValidations.validateDataStorageName(null);
+    ValidationResult result =
+        FieldValidations.validateFieldFollowsBucketNamingStructure("dataStorageName", null);
     assertTrue(result.validationMessages.contains("dataStorageName must be provided"));
     assertEquals(1, result.validationMessages.size());
   }
 
   @Test
   public void createDatasetRuleMissingDataStoragePrefixFails() {
-    ValidationResult result = FieldValidations.validateDataStorageName("bucket/dataset");
+    ValidationResult result =
+        FieldValidations.validateFieldFollowsBucketNamingStructure(
+            "dataStorageName", "bucket/dataset");
 
     assertTrue(result.validationMessages.contains("dataStorageName must start with 'gs://'"));
   }
 
   @Test
   public void createDatasetRuleMissingDataStorageBucketFails() {
-    ValidationResult result = FieldValidations.validateDataStorageName("gs:///dataset");
+    ValidationResult result =
+        FieldValidations.validateFieldFollowsBucketNamingStructure(
+            "dataStorageName", "gs:///dataset");
 
     assertTrue(result.validationMessages.contains("dataStorageName must include a bucket name"));
   }
 
   @Test
   public void createDatasetRuleMissingDataStorageDatasetFails() {
-    ValidationResult result = FieldValidations.validateDataStorageName("gs://bucket");
+    ValidationResult result =
+        FieldValidations.validateFieldFollowsBucketNamingStructure(
+            "dataStorageName", "gs://bucket");
 
     assertTrue(result.validationMessages.contains("dataStorageName must include a dataset name"));
   }

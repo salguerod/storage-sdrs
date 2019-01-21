@@ -24,34 +24,37 @@ import java.util.List;
 public class FieldValidations {
   private static final String STORAGE_PREFIX = "gs://";
 
+  private FieldValidations() {}
+
   /**
-   * Runs a validation check on a data storage name
+   * Runs a validation check on an arbitrary field that conforms to bucket naming conventions
    *
-   * @return A validation result containing a list of validation error messages.
+   * @param fieldName the JSON field name
+   * @param fieldValue the input value for the field being validated
+   * @return A validation result containing a list of validation error messages
    */
-  public static ValidationResult validateDataStorageName(String dataStorageName) {
+  public static ValidationResult validateFieldFollowsBucketNamingStructure(
+      String fieldName, String fieldValue) {
+
     List<String> validationMessages = new LinkedList<>();
-    if (dataStorageName == null) {
-      validationMessages.add("dataStorageName must be provided");
+    if (fieldValue == null) {
+      validationMessages.add(String.format("%s must be provided", fieldName));
     } else {
-      // DataStorageName should match gs://<bucket_name>/<dataset_name>
-      if (!dataStorageName.startsWith(STORAGE_PREFIX)) {
-        validationMessages.add(
-            String.format("dataStorageName must start with '%s'", STORAGE_PREFIX));
+      // Field value should match gs://<bucket_name>/<dataset_name>
+      if (!fieldValue.startsWith(STORAGE_PREFIX)) {
+        validationMessages.add(String.format("%s must start with '%s'", fieldName, STORAGE_PREFIX));
       } else {
-        String bucketAndDataset = dataStorageName.substring(STORAGE_PREFIX.length());
+        String bucketAndDataset = fieldValue.substring(STORAGE_PREFIX.length());
         String[] pathSegments = bucketAndDataset.split("/");
 
         if (pathSegments[0].length() == 0) {
-          validationMessages.add("dataStorageName must include a bucket name");
+          validationMessages.add(String.format("%s must include a bucket name", fieldName));
         }
         if (pathSegments.length < 2 || pathSegments[1].length() == 0) {
-          validationMessages.add("dataStorageName must include a dataset name");
+          validationMessages.add(String.format("%s must include a dataset name", fieldName));
         }
       }
     }
     return new ValidationResult(validationMessages);
   }
-
-  private FieldValidations() {}
 }

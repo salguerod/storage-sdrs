@@ -62,6 +62,11 @@ public class EventsController extends BaseController {
     }
   }
 
+  /**
+   * Runs validation checks against the "Execution" event request type
+   *
+   * @throws ValidationException when the request is invalid
+   */
   private void validateExecutionEvent(ExecutionEventRequest request) throws ValidationException {
     List<ValidationResult> partialValidations = new LinkedList<>();
 
@@ -69,15 +74,16 @@ public class EventsController extends BaseController {
       partialValidations.add(ValidationResult.fromString("type must be provided"));
     } else {
       switch (request.getType()) {
-        case GLOBAL:
+        case POLICY:
           break;
-        case DATASET:
+        case USER_COMMANDED:
+          if (request.getProjectId() == null) {
+            partialValidations.add(
+                ValidationResult.fromString("projectId must be provided if type is USER"));
+          }
           partialValidations.add(
-              FieldValidations.validateDataStorageName(request.getDataStorageName()));
-          break;
-        case AD_HOC:
-          partialValidations.add(
-              FieldValidations.validateDataStorageName(request.getDataStorageName()));
+              FieldValidations.validateFieldFollowsBucketNamingStructure(
+                  "target", request.getTarget()));
           break;
         default:
           break;
@@ -85,7 +91,7 @@ public class EventsController extends BaseController {
     }
 
     ValidationResult result = ValidationResult.compose(partialValidations);
-    if (result.validationMessages.size() > 0) {
+    if (!result.isValid) {
       throw new ValidationException(result);
     }
   }

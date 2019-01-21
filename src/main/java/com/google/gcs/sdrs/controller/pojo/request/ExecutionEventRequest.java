@@ -21,10 +21,8 @@ import com.google.cloudy.retention.enums.ExecutionEventTypes;
 
 public class ExecutionEventRequest {
   private ExecutionEventTypes type;
-  private String dataStorageName;
   private String projectId;
-  private String datasetName;
-  private Integer ruleId;
+  private String target;
 
   public ExecutionEventTypes getType() {
     return type;
@@ -32,14 +30,6 @@ public class ExecutionEventRequest {
 
   public void setType(ExecutionEventTypes type) {
     this.type = type;
-  }
-
-  public String getDataStorageName() {
-    return dataStorageName;
-  }
-
-  public void setDataStorageName(String dataStorageName) {
-    this.dataStorageName = dataStorageName;
   }
 
   public String getProjectId() {
@@ -50,19 +40,11 @@ public class ExecutionEventRequest {
     this.projectId = projectId;
   }
 
-  public String getDatasetName() {
-    return datasetName;
+  public String getTarget() {
+    return target;
   }
 
-  public void setDatasetName(String datasetName) {
-    this.datasetName = datasetName;
-  }
-
-  public Integer getRuleId() {
-    return ruleId;
-  }
-
-  public void setRuleId(Integer ruleId) {
-    this.ruleId = ruleId;
+  public void setTarget(String target) {
+    this.target = target;
   }
 }

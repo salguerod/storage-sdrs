@@ -117,7 +117,8 @@ public class RetentionRulesController extends BaseController {
           break;
         case DATASET:
           partialValidations.add(
-              FieldValidations.validateDataStorageName(request.getDataStorageName()));
+              FieldValidations.validateFieldFollowsBucketNamingStructure(
+                  "dataStorageName", request.getDataStorageName()));
 
           if (request.getProjectId() == null) {
             partialValidations.add(
@@ -131,7 +132,7 @@ public class RetentionRulesController extends BaseController {
 
     ValidationResult result = ValidationResult.compose(partialValidations);
 
-    if (result.validationMessages.size() > 0) {
+    if (!result.isValid) {
       throw new ValidationException(result);
     }
   }
@@ -139,7 +140,7 @@ public class RetentionRulesController extends BaseController {
   private void validateUpdate(RetentionRuleUpdateRequest request) throws ValidationException {
     ValidationResult result = validateRetentionPeriod(request.getRetentionPeriod());
 
-    if (result.validationMessages.size() > 0) {
+    if (!result.isValid) {
       throw new ValidationException(result);
     }
   }

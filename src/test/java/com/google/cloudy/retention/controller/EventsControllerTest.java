@@ -64,7 +64,7 @@ public class EventsControllerTest {
   @Test
   public void executeEventWhenSuccessfulIncludesResponseFields() {
     ExecutionEventRequest request = new ExecutionEventRequest();
-    request.setType(ExecutionEventTypes.GLOBAL);
+    request.setType(ExecutionEventTypes.POLICY);
 
     Response response = controller.executeEvent(request);
 
@@ -84,9 +84,9 @@ public class EventsControllerTest {
   }
 
   @Test
-  public void createGlobalRuleWithValidFieldsSucceeds() {
+  public void executePolicyWithValidFieldsSucceeds() {
     ExecutionEventRequest request = new ExecutionEventRequest();
-    request.setType(ExecutionEventTypes.GLOBAL);
+    request.setType(ExecutionEventTypes.POLICY);
 
     Response response = controller.executeEvent(request);
 
@@ -94,10 +94,11 @@ public class EventsControllerTest {
   }
 
   @Test
-  public void createDatasetRuleWithValidFieldsSucceeds() {
+  public void executeUserEventWithValidFieldsSucceeds() {
     ExecutionEventRequest request = new ExecutionEventRequest();
-    request.setType(ExecutionEventTypes.DATASET);
-    request.setDataStorageName("gs://b/s");
+    request.setType(ExecutionEventTypes.USER_COMMANDED);
+    request.setProjectId("projectId");
+    request.setTarget("gs://b/s/t");
 
     Response response = controller.executeEvent(request);
 
@@ -105,37 +106,28 @@ public class EventsControllerTest {
   }
 
   @Test
-  public void createAdHocRuleWithValidFieldsSucceeds() {
+  public void executeUserEventWithInvalidProjectIdFails() {
     ExecutionEventRequest request = new ExecutionEventRequest();
-    request.setType(ExecutionEventTypes.AD_HOC);
-    request.setDataStorageName("gs://b/s");
-
-    Response response = controller.executeEvent(request);
-
-    assertEquals(response.getStatus(), 200);
-  }
-
-  @Test
-  public void createDatasetRuleWithInvalidDataStorageFails() {
-    ExecutionEventRequest request = new ExecutionEventRequest();
-    request.setType(ExecutionEventTypes.DATASET);
-    request.setDataStorageName("test");
+    request.setType(ExecutionEventTypes.USER_COMMANDED);
+    request.setProjectId(null);
+    request.setTarget("gs://b/s/t");
 
     Response response = controller.executeEvent(request);
 
     assertEquals(response.getStatus(), 400);
-    assertTrue(((ErrorResponse) response.getEntity()).getMessage().contains("dataStorageName"));
+    assertTrue(((ErrorResponse) response.getEntity()).getMessage().contains("projectId"));
   }
 
   @Test
-  public void createAdHocRuleWithInvalidDataStorageFails() {
+  public void executeUserEventWithInvalidTargetFails() {
     ExecutionEventRequest request = new ExecutionEventRequest();
-    request.setType(ExecutionEventTypes.AD_HOC);
-    request.setDataStorageName("test");
+    request.setType(ExecutionEventTypes.USER_COMMANDED);
+    request.setProjectId("projectId");
+    request.setTarget("gs://b/");
 
     Response response = controller.executeEvent(request);
 
     assertEquals(response.getStatus(), 400);
-    assertTrue(((ErrorResponse) response.getEntity()).getMessage().contains("dataStorageName"));
+    assertTrue(((ErrorResponse) response.getEntity()).getMessage().contains("target"));
   }
 }

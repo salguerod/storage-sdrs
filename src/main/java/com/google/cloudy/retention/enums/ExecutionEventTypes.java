@@ -18,9 +18,8 @@
 package com.google.cloudy.retention.enums;
 
 public enum ExecutionEventTypes {
-  GLOBAL("GLOBAL"),
-  DATASET("DATASET"),
-  AD_HOC("AD-HOC");
+  POLICY("POLICY"),
+  USER_COMMANDED("USER");
 
   private final String value;
 
