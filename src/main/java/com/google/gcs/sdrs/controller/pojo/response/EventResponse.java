@@ -15,9 +15,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, and is not intended for production use.
  */
 
-package com.google.cloudy.retention.controller.pojo.response;
-
-import com.google.gcs.sdrs.controller.pojo.response.BaseHttpResponse;
+package com.google.gcs.sdrs.controller.pojo.response;
 
 public class EventResponse extends BaseHttpResponse {
   private String message;
