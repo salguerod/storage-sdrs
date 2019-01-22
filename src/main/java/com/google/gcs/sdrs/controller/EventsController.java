@@ -17,8 +17,8 @@
 
 package com.google.gcs.sdrs.controller;
 
-import com.google.cloudy.retention.controller.validation.FieldValidations;
-import com.google.cloudy.retention.controller.validation.ValidationResult;
+import com.google.gcs.sdrs.controller.validation.FieldValidations;
+import com.google.gcs.sdrs.controller.validation.ValidationResult;
 import com.google.gcs.sdrs.controller.pojo.request.ExecutionEventRequest;
 import com.google.gcs.sdrs.controller.pojo.response.EventResponse;
 import java.util.LinkedList;

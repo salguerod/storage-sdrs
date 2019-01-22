@@ -15,13 +15,13 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, and is not intended for production use.
  */
 
-package com.google.cloudy.retention.controller;
+package com.google.gcs.sdrs.controller;
 
-import com.google.cloudy.retention.controller.pojo.request.ExecutionEventRequest;
-import com.google.cloudy.retention.controller.pojo.response.ErrorResponse;
-import com.google.cloudy.retention.controller.pojo.response.EventResponse;
-import com.google.cloudy.retention.controller.validation.ValidationResult;
-import com.google.cloudy.retention.enums.ExecutionEventTypes;
+import com.google.gcs.sdrs.controller.pojo.request.ExecutionEventRequest;
+import com.google.gcs.sdrs.controller.pojo.response.ErrorResponse;
+import com.google.gcs.sdrs.controller.pojo.response.EventResponse;
+import com.google.gcs.sdrs.controller.validation.ValidationResult;
+import com.google.gcs.sdrs.enums.ExecutionEventTypes;
 import javax.ws.rs.core.Response;
 import org.junit.Before;
 import org.junit.Test;

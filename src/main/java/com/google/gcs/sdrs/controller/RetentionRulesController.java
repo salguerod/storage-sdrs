@@ -18,8 +18,8 @@
 
 package com.google.gcs.sdrs.controller;
 
-import com.google.cloudy.retention.controller.validation.FieldValidations;
-import com.google.cloudy.retention.controller.validation.ValidationResult;
+import com.google.gcs.sdrs.controller.validation.FieldValidations;
+import com.google.gcs.sdrs.controller.validation.ValidationResult;
 import com.google.gcs.sdrs.controller.pojo.request.RetentionRuleCreateRequest;
 import com.google.gcs.sdrs.controller.pojo.request.RetentionRuleUpdateRequest;
 import com.google.gcs.sdrs.controller.pojo.response.RetentionRuleCreateResponse;

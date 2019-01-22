@@ -15,7 +15,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, and is not intended for production use.
  */
 
-package com.google.cloudy.retention.enums;
+package com.google.gcs.sdrs.enums;
 
 public enum ExecutionEventTypes {
   POLICY("POLICY"),

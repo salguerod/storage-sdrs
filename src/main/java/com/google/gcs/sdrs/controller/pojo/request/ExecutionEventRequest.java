@@ -17,7 +17,7 @@
 
 package com.google.gcs.sdrs.controller.pojo.request;
 
-import com.google.cloudy.retention.enums.ExecutionEventTypes;
+import com.google.gcs.sdrs.enums.ExecutionEventTypes;
 
 public class ExecutionEventRequest {
   private ExecutionEventTypes type;
