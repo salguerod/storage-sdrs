@@ -21,7 +21,7 @@ import com.google.gcs.sdrs.controller.pojo.request.ExecutionEventRequest;
 import com.google.gcs.sdrs.controller.pojo.response.ErrorResponse;
 import com.google.gcs.sdrs.controller.pojo.response.EventResponse;
 import com.google.gcs.sdrs.controller.validation.ValidationResult;
-import com.google.gcs.sdrs.enums.ExecutionEventTypes;
+import com.google.gcs.sdrs.enums.ExecutionEventType;
 import javax.ws.rs.core.Response;
 import org.junit.Before;
 import org.junit.Test;
@@ -64,7 +64,7 @@ public class EventsControllerTest {
   @Test
   public void executeEventWhenSuccessfulIncludesResponseFields() {
     ExecutionEventRequest request = new ExecutionEventRequest();
-    request.setType(ExecutionEventTypes.POLICY);
+    request.setType(ExecutionEventType.POLICY);
 
     Response response = controller.executeEvent(request);
 
@@ -86,7 +86,7 @@ public class EventsControllerTest {
   @Test
   public void executePolicyWithValidFieldsSucceeds() {
     ExecutionEventRequest request = new ExecutionEventRequest();
-    request.setType(ExecutionEventTypes.POLICY);
+    request.setType(ExecutionEventType.POLICY);
 
     Response response = controller.executeEvent(request);
 
@@ -96,7 +96,7 @@ public class EventsControllerTest {
   @Test
   public void executeUserEventWithValidFieldsSucceeds() {
     ExecutionEventRequest request = new ExecutionEventRequest();
-    request.setType(ExecutionEventTypes.USER_COMMANDED);
+    request.setType(ExecutionEventType.USER_COMMANDED);
     request.setProjectId("projectId");
     request.setTarget("gs://b/s/t");
 
@@ -108,7 +108,7 @@ public class EventsControllerTest {
   @Test
   public void executeUserEventWithInvalidProjectIdFails() {
     ExecutionEventRequest request = new ExecutionEventRequest();
-    request.setType(ExecutionEventTypes.USER_COMMANDED);
+    request.setType(ExecutionEventType.USER_COMMANDED);
     request.setProjectId(null);
     request.setTarget("gs://b/s/t");
 
@@ -121,7 +121,7 @@ public class EventsControllerTest {
   @Test
   public void executeUserEventWithInvalidTargetFails() {
     ExecutionEventRequest request = new ExecutionEventRequest();
-    request.setType(ExecutionEventTypes.USER_COMMANDED);
+    request.setType(ExecutionEventType.USER_COMMANDED);
     request.setProjectId("projectId");
     request.setTarget("gs://b/");
 

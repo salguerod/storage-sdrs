@@ -17,6 +17,7 @@
 
 package com.google.gcs.sdrs.controller.pojo.response;
 
+/** Standard response for event endpoints. */
 public class EventResponse extends BaseHttpResponse {
   private String message;
 

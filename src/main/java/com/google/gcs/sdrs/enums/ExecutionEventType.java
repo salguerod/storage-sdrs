@@ -17,13 +17,14 @@
 
 package com.google.gcs.sdrs.enums;
 
-public enum ExecutionEventTypes {
+/** Supported type for events sent to the execution endpoint */
+public enum ExecutionEventType {
   POLICY("POLICY"),
   USER_COMMANDED("USER");
 
   private final String value;
 
-  ExecutionEventTypes(final String value) {
+  ExecutionEventType(final String value) {
     this.value = value;
   }
 

@@ -17,18 +17,18 @@
 
 package com.google.gcs.sdrs.controller.pojo.request;
 
-import com.google.gcs.sdrs.enums.ExecutionEventTypes;
+import com.google.gcs.sdrs.enums.ExecutionEventType;
 
 public class ExecutionEventRequest {
-  private ExecutionEventTypes type;
+  private ExecutionEventType type;
   private String projectId;
   private String target;
 
-  public ExecutionEventTypes getType() {
+  public ExecutionEventType getType() {
     return type;
   }
 
-  public void setType(ExecutionEventTypes type) {
+  public void setType(ExecutionEventType type) {
     this.type = type;
   }
 
