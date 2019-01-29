@@ -18,7 +18,7 @@
 package com.google.gcs.sdrs.controller;
 
 import com.google.gcs.sdrs.controller.validation.ValidationResult;
-import java.util.List;
+import java.util.Collection;
 
 /**
  * Exception thrown in case of validation errors. Supports messages including multiple identified
@@ -26,7 +26,7 @@ import java.util.List;
  */
 public class ValidationException extends HttpException {
 
-  private List<String> validationMessages;
+  private Collection<String> validationMessages;
 
   /** Constructs a ValidationException based off of values within a ValidationResult object */
   public ValidationException(ValidationResult validationResult) {

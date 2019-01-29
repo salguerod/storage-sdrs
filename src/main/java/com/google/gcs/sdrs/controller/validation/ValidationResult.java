@@ -17,30 +17,30 @@
 
 package com.google.gcs.sdrs.controller.validation;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedList;
-import java.util.List;
 
 /** Exposes a list of validation messages */
 public class ValidationResult {
 
   /**
-   * An immutable list of user actionable changes required to pass a validation check.
+   * An immutable collection of user actionable changes required to pass a validation check.
    */
-  public final List<String> validationMessages;
+  public final Collection<String> validationMessages;
 
   /** Flag indicating that validation checks were passed */
   public final boolean isValid;
 
   /** Creates a ValidationResult */
-  public ValidationResult(List<String> validationMessages) {
-    this.validationMessages = Collections.unmodifiableList(validationMessages);
+  public ValidationResult(Collection<String> validationMessages) {
+    this.validationMessages = Collections.unmodifiableCollection(validationMessages);
     this.isValid = validationMessages.size() == 0;
   }
 
   /** Create a ValidationResult from a composite of partial results. */
-  public static ValidationResult compose(List<ValidationResult> validationResults) {
-    List<String> partialMessages = new LinkedList<>();
+  public static ValidationResult compose(Collection<ValidationResult> validationResults) {
+    Collection<String> partialMessages = new LinkedList<>();
     for (ValidationResult validationResult : validationResults) {
       partialMessages.addAll(validationResult.validationMessages);
     }
@@ -49,7 +49,7 @@ public class ValidationResult {
 
   /** Convenience method for creating a ValidationResult with a single validation message */
   public static ValidationResult fromString(String validationMessage) {
-    List<String> messages = new LinkedList<>();
+    Collection<String> messages = new LinkedList<>();
     messages.add(validationMessage);
     return new ValidationResult(messages);
   }

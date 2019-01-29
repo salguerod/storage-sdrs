@@ -21,8 +21,8 @@ import com.google.gcs.sdrs.controller.pojo.EventResponse;
 import com.google.gcs.sdrs.controller.pojo.ExecutionEventRequest;
 import com.google.gcs.sdrs.controller.validation.FieldValidations;
 import com.google.gcs.sdrs.controller.validation.ValidationResult;
+import java.util.Collection;
 import java.util.LinkedList;
-import java.util.List;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -68,7 +68,7 @@ public class EventsController extends BaseController {
    * @throws ValidationException when the request is invalid
    */
   private void validateExecutionEvent(ExecutionEventRequest request) throws ValidationException {
-    List<ValidationResult> partialValidations = new LinkedList<>();
+    Collection<ValidationResult> partialValidations = new LinkedList<>();
 
     if (request.getType() == null) {
       partialValidations.add(ValidationResult.fromString("type must be provided"));
