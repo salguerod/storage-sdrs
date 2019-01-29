@@ -17,9 +17,9 @@
 
 package com.google.gcs.sdrs.controller;
 
-import com.google.gcs.sdrs.controller.pojo.request.ExecutionEventRequest;
-import com.google.gcs.sdrs.controller.pojo.response.ErrorResponse;
-import com.google.gcs.sdrs.controller.pojo.response.EventResponse;
+import com.google.gcs.sdrs.controller.pojo.ErrorResponse;
+import com.google.gcs.sdrs.controller.pojo.EventResponse;
+import com.google.gcs.sdrs.controller.pojo.ExecutionEventRequest;
 import com.google.gcs.sdrs.controller.validation.ValidationResult;
 import com.google.gcs.sdrs.enums.ExecutionEventType;
 import javax.ws.rs.core.Response;

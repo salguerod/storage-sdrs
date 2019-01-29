@@ -15,17 +15,18 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, and is not intended for production use.
  */
 
-package com.google.gcs.sdrs.controller.pojo.response;
+package com.google.gcs.sdrs.controller.pojo;
 
-/** Standard response for event endpoints. */
-public class EventResponse extends BaseHttpResponse {
-  private String message;
+import java.io.Serializable;
 
-  public String getMessage() {
-    return message;
+public class RetentionRuleUpdateRequest implements Serializable {
+  private Integer retentionPeriod;
+
+  public Integer getRetentionPeriod() {
+    return retentionPeriod;
   }
 
-  public void setMessage(String message) {
-    this.message = message;
+  public void setRetentionPeriod(Integer retentionPeriod) {
+    this.retentionPeriod = retentionPeriod;
   }
 }

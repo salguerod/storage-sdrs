@@ -17,10 +17,10 @@
 
 package com.google.gcs.sdrs.controller;
 
+import com.google.gcs.sdrs.controller.pojo.EventResponse;
+import com.google.gcs.sdrs.controller.pojo.ExecutionEventRequest;
 import com.google.gcs.sdrs.controller.validation.FieldValidations;
 import com.google.gcs.sdrs.controller.validation.ValidationResult;
-import com.google.gcs.sdrs.controller.pojo.request.ExecutionEventRequest;
-import com.google.gcs.sdrs.controller.pojo.response.EventResponse;
 import java.util.LinkedList;
 import java.util.List;
 import javax.ws.rs.Consumes;

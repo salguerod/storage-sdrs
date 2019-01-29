@@ -15,36 +15,17 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, and is not intended for production use.
  */
 
-package com.google.gcs.sdrs.controller.pojo.request;
+package com.google.gcs.sdrs.controller.pojo;
 
-import com.google.gcs.sdrs.enums.ExecutionEventType;
+/** Standard response for event endpoints. */
+public class EventResponse extends BaseHttpResponse {
+  private String message;
 
-public class ExecutionEventRequest {
-  private ExecutionEventType type;
-  private String projectId;
-  private String target;
-
-  public ExecutionEventType getType() {
-    return type;
+  public String getMessage() {
+    return message;
   }
 
-  public void setType(ExecutionEventType type) {
-    this.type = type;
-  }
-
-  public String getProjectId() {
-    return projectId;
-  }
-
-  public void setProjectId(String projectId) {
-    this.projectId = projectId;
-  }
-
-  public String getTarget() {
-    return target;
-  }
-
-  public void setTarget(String target) {
-    this.target = target;
+  public void setMessage(String message) {
+    this.message = message;
   }
 }

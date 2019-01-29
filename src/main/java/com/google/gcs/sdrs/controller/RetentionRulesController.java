@@ -18,21 +18,15 @@
 
 package com.google.gcs.sdrs.controller;
 
+import com.google.gcs.sdrs.controller.pojo.RetentionRuleCreateRequest;
+import com.google.gcs.sdrs.controller.pojo.RetentionRuleCreateResponse;
+import com.google.gcs.sdrs.controller.pojo.RetentionRuleUpdateRequest;
+import com.google.gcs.sdrs.controller.pojo.RetentionRuleUpdateResponse;
 import com.google.gcs.sdrs.controller.validation.FieldValidations;
 import com.google.gcs.sdrs.controller.validation.ValidationResult;
-import com.google.gcs.sdrs.controller.pojo.request.RetentionRuleCreateRequest;
-import com.google.gcs.sdrs.controller.pojo.request.RetentionRuleUpdateRequest;
-import com.google.gcs.sdrs.controller.pojo.response.RetentionRuleCreateResponse;
-import com.google.gcs.sdrs.controller.pojo.response.RetentionRuleUpdateResponse;
 import com.google.gcs.sdrs.enums.RetentionRuleTypes;
 import java.util.LinkedList;
 import java.util.List;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.google.gcs.sdrs.controller.pojo.RetentionRuleCreateRequest;
-import com.google.gcs.sdrs.controller.pojo.RetentionRuleCreateResponse;
-
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
