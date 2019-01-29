@@ -19,6 +19,7 @@ package com.google.gcs.sdrs.controller.pojo;
 
 import java.io.Serializable;
 
+/** POJO Tracking JSON input fields/types for updating a retention rule */
 public class RetentionRuleUpdateRequest implements Serializable {
   private Integer retentionPeriod;
 

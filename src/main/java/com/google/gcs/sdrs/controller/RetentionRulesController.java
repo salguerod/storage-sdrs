@@ -27,6 +27,11 @@ import com.google.gcs.sdrs.controller.validation.ValidationResult;
 import com.google.gcs.sdrs.enums.RetentionRuleTypes;
 import java.util.LinkedList;
 import java.util.List;
+import com.google.gcs.sdrs.controller.pojo.RetentionRuleUpdateRequest;
+import com.google.gcs.sdrs.controller.pojo.RetentionRuleUpdateResponse;
+import com.google.gcs.sdrs.enums.RetentionRuleTypes;
+import com.google.gcs.sdrs.service.RetentionRulesService;
+import com.google.gcs.sdrs.service.impl.RetentionRulesServiceImpl;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -38,12 +43,14 @@ import javax.ws.rs.core.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/** Controller for managing retention rule objects over HTTP */
+/** Controller for handling /retentionrules endpoints to manage retention rules. */
 @Path("/retentionrules")
 public class RetentionRulesController extends BaseController {
 
   private static final Logger logger = LoggerFactory.getLogger(RetentionRulesController.class);
   private static final Integer RETENTION_MAX_VALUE = 200;
+
+  RetentionRulesService service = new RetentionRulesServiceImpl();
 
   /** CRUD create endpoint */
   @POST
@@ -55,13 +62,12 @@ public class RetentionRulesController extends BaseController {
     try {
       validateCreate(request);
 
-      // TODO: Perform business logic
+      int result = service.createRetentionRule(request);
 
       RetentionRuleCreateResponse response = new RetentionRuleCreateResponse();
       response.setRequestUuid(requestUuid);
+      response.setRuleId(result);
 
-      // TODO: Replace with real value
-      response.setRuleId(1);
       return Response.status(200).entity(response).build();
     } catch (HttpException exception) {
       return generateExceptionResponse(exception, requestUuid);

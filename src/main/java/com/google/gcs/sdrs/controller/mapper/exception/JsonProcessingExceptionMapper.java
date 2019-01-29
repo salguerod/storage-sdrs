@@ -25,9 +25,7 @@ import javax.ws.rs.ext.Provider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/**
- * Handles general Jackson JsonProcessingExceptions with custom error messages.
- */
+/** Handles general Jackson JsonProcessingExceptions with custom error messages. */
 @Provider
 @Produces(MediaType.APPLICATION_JSON)
 public class JsonProcessingExceptionMapper extends JacksonExceptionMapper<JsonProcessingException> {

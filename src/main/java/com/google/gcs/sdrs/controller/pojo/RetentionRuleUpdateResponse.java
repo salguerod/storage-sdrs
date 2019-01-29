@@ -19,6 +19,7 @@ package com.google.gcs.sdrs.controller.pojo;
 
 import com.google.gcs.sdrs.enums.RetentionRuleTypes;
 
+/** POJO Tracking JSON response fields/types when updating a retention rule */
 public class RetentionRuleUpdateResponse extends BaseHttpResponse {
   private Integer ruleId;
   private String datasetName;

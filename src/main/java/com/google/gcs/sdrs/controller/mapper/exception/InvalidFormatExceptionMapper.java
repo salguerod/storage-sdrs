@@ -27,8 +27,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Handles Jackson InvalidFormatExceptions with custom error messages.
- * This can be caused by an invalid enum value on the request object.
+ * Handles Jackson InvalidFormatExceptions with custom error messages. This can be caused by an
+ * invalid enum value on the request object.
  */
 @Provider
 @Produces(MediaType.APPLICATION_JSON)

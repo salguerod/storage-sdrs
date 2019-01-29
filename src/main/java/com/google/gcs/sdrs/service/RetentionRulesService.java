@@ -13,21 +13,20 @@
  *
  * Any software provided by Google hereunder is distributed “AS IS”,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, and is not intended for production use.
- *
  */
 
-package com.google.gcs.sdrs.controller.pojo;
+package com.google.gcs.sdrs.service;
 
-/** POJO Tracking JSON response fields/types when creating a retention rule */
-public class RetentionRuleCreateResponse extends BaseHttpResponse {
+import com.google.gcs.sdrs.controller.pojo.RetentionRuleCreateRequest;
 
-  private int ruleId;
+/** Service implementation for managing retention rules. */
+public interface RetentionRulesService {
 
-  public int getRuleId() {
-    return ruleId;
-  }
-
-  public void setRuleId(int ruleId) {
-    this.ruleId = ruleId;
-  }
+  /**
+   * Creates a retention rule and returns its ID
+   *
+   * @param rule the request object input by the user
+   * @return The identifier for the created rule
+   */
+  Integer createRetentionRule(RetentionRuleCreateRequest rule);
 }
