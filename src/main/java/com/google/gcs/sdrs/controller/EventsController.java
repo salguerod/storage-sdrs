@@ -21,6 +21,8 @@ import com.google.gcs.sdrs.controller.pojo.EventResponse;
 import com.google.gcs.sdrs.controller.pojo.ExecutionEventRequest;
 import com.google.gcs.sdrs.controller.validation.FieldValidations;
 import com.google.gcs.sdrs.controller.validation.ValidationResult;
+import com.google.gcs.sdrs.service.EventsService;
+import com.google.gcs.sdrs.service.impl.EventsServiceImpl;
 import java.util.Collection;
 import java.util.LinkedList;
 import javax.ws.rs.Consumes;
@@ -38,6 +40,8 @@ public class EventsController extends BaseController {
 
   private static final Logger logger = LoggerFactory.getLogger(EventsController.class);
 
+  EventsService service = new EventsServiceImpl();
+
   /** Accepts a request to invoke a policy or process a manual delete */
   @POST
   @Path("/execution")
@@ -49,10 +53,9 @@ public class EventsController extends BaseController {
     try {
       validateExecutionEvent(request);
 
-      // TODO: Perform business logic
+      service.executeEvent(request);
 
       EventResponse response = new EventResponse();
-
       response.setRequestUuid(requestUuid);
       response.setMessage("Event registered and awaiting execution.");
 
