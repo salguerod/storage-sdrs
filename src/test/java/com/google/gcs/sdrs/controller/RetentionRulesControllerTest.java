@@ -24,8 +24,6 @@ import com.google.gcs.sdrs.controller.pojo.RetentionRuleCreateResponse;
 import com.google.gcs.sdrs.controller.pojo.RetentionRuleUpdateRequest;
 import com.google.gcs.sdrs.controller.pojo.RetentionRuleUpdateResponse;
 import com.google.gcs.sdrs.controller.validation.ValidationResult;
-import com.google.gcs.sdrs.controller.pojo.RetentionRuleUpdateRequest;
-import com.google.gcs.sdrs.controller.pojo.RetentionRuleUpdateResponse;
 import com.google.gcs.sdrs.enums.RetentionRuleTypes;
 import com.google.gcs.sdrs.service.impl.RetentionRulesServiceImpl;
 import javax.ws.rs.core.Response;
