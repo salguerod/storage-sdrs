@@ -144,6 +144,46 @@ public class RetentionRulesControllerTest {
   }
 
   @Test
+  public void createDatasetRuleMissingDataStorageFails() {
+    RetentionRuleCreateRequest rule = new RetentionRuleCreateRequest();
+    rule.setType(RetentionRuleTypes.DATASET);
+    rule.setDatasetName("datasetName");
+    rule.setRetentionPeriod(123);
+    rule.setProjectId("projectId");
+    Response response = controller.create(rule);
+    assertEquals(response.getStatus(), 400);
+    assertTrue(((ErrorResponse) response.getEntity()).getMessage().contains("dataStorageName"));
+  }
+
+  @Test
+  public void createDatasetRuleMissingDataStoragePrefixFails() {
+    RetentionRuleCreateRequest rule = new RetentionRuleCreateRequest();
+    rule.setType(RetentionRuleTypes.DATASET);
+    rule.setDatasetName("datasetName");
+    rule.setDataStorageName("bucket/dataset");
+    rule.setRetentionPeriod(123);
+    rule.setProjectId("projectId");
+    Response response = controller.create(rule);
+    assertEquals(response.getStatus(), 400);
+    assertTrue(((ErrorResponse) response.getEntity()).getMessage().contains("dataStorageName"));
+    assertTrue(((ErrorResponse) response.getEntity()).getMessage().contains("gs://"));
+  }
+
+  @Test
+  public void createDatasetRuleMissingDataStorageBucketFails() {
+    RetentionRuleCreateRequest rule = new RetentionRuleCreateRequest();
+    rule.setType(RetentionRuleTypes.DATASET);
+    rule.setDatasetName("datasetName");
+    rule.setDataStorageName("gs:///dataset");
+    rule.setRetentionPeriod(123);
+    rule.setProjectId("projectId");
+    Response response = controller.create(rule);
+    assertEquals(response.getStatus(), 400);
+    assertTrue(((ErrorResponse) response.getEntity()).getMessage().contains("dataStorageName"));
+    assertTrue(((ErrorResponse) response.getEntity()).getMessage().contains("bucket"));
+  }
+
+  @Test
   public void createDatasetRuleWithValidFieldsSucceeds() {
     RetentionRuleCreateRequest rule = new RetentionRuleCreateRequest();
     rule.setType(RetentionRuleTypes.DATASET);
