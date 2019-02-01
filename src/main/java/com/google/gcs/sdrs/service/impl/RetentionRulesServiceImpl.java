@@ -23,38 +23,42 @@ import com.google.gcs.sdrs.dao.SingletonDao;
 import com.google.gcs.sdrs.dao.model.RetentionRule;
 import com.google.gcs.sdrs.enums.RetentionRuleTypes;
 import com.google.gcs.sdrs.service.RetentionRulesService;
-import java.sql.Timestamp;
+
+import static com.google.gcs.sdrs.controller.RetentionRulesController.STORAGE_SEPARATOR;
+import static com.google.gcs.sdrs.controller.RetentionRulesController.STORAGE_PREFIX;
 
 /** Service implementation for managing retention rules including mapping. */
 public class RetentionRulesServiceImpl implements RetentionRulesService {
   private static final String DEFAULT_PROJECT_ID = "global-default";
 
-  Dao<RetentionRule, Integer> dao = SingletonDao.retentionRuleDao;
+  Dao<RetentionRule, Integer> dao = SingletonDao.getRetentionRuleDao();
 
   @Override()
   public Integer createRetentionRule(RetentionRuleCreateRequest rule) {
     RetentionRule entity = mapPojoToPersistenceEntity(rule);
-    return dao.persist(entity);
+    return dao.save(entity);
   }
 
   private RetentionRule mapPojoToPersistenceEntity(RetentionRuleCreateRequest pojo) {
     RetentionRule entity = new RetentionRule();
 
     // Map over input values
-    entity.setDatasetName(pojo.getDatasetName());
     entity.setDataStorageName(pojo.getDataStorageName());
     entity.setProjectId(pojo.getProjectId());
     entity.setRetentionPeriodInDays(pojo.getRetentionPeriod());
     entity.setType(pojo.getType());
+
+    String datasetName = pojo.getDatasetName();
+    if (datasetName == null) {
+      datasetName = extractDatasetNameFromDataStorage(pojo.getDataStorageName());
+    }
+    entity.setDatasetName(datasetName);
 
     if (entity.getType() == RetentionRuleTypes.GLOBAL) {
       entity.setProjectId(DEFAULT_PROJECT_ID);
     }
 
     // Generate metadata
-    Timestamp now = new Timestamp(System.currentTimeMillis());
-    entity.setCreatedAt(now);
-    entity.setUpdatedAt(now);
     entity.setIsActive(true);
     entity.setVersion(1);
 
@@ -62,5 +66,20 @@ public class RetentionRulesServiceImpl implements RetentionRulesService {
     entity.setUser("user");
 
     return entity;
+  }
+
+  private String extractDatasetNameFromDataStorage(String dataStorageName) {
+    if (dataStorageName == null) {
+      return null;
+    }
+
+    String removedPrefix = dataStorageName.substring(STORAGE_PREFIX.length());
+    String[] bucketAndDataset = removedPrefix.split(STORAGE_SEPARATOR, 2);
+
+    if (bucketAndDataset.length == 2) {
+      return bucketAndDataset[1];
+    } else {
+      return bucketAndDataset[0];
+    }
   }
 }
