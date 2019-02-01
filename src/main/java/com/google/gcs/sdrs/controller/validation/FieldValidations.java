@@ -17,8 +17,8 @@
 
 package com.google.gcs.sdrs.controller.validation;
 
-import java.util.LinkedList;
-import java.util.List;
+import java.util.Collection;
+import java.util.HashSet;
 
 /** Exposes static methods for validation shared between controllers. */
 public class FieldValidations {
@@ -36,7 +36,7 @@ public class FieldValidations {
   public static ValidationResult validateFieldFollowsBucketNamingStructure(
       String fieldName, String fieldValue) {
 
-    List<String> validationMessages = new LinkedList<>();
+    Collection<String> validationMessages = new HashSet<>();
     if (fieldValue == null) {
       validationMessages.add(String.format("%s must be provided", fieldName));
     } else {

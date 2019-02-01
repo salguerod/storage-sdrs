@@ -19,13 +19,11 @@ package com.google.gcs.sdrs.service.impl;
 
 import com.google.gcs.sdrs.controller.pojo.ExecutionEventRequest;
 import com.google.gcs.sdrs.service.EventsService;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 /** Service implementation for event related behaviors. */
 public class EventsServiceImpl implements EventsService {
 
   @Override
   public void executeEvent(ExecutionEventRequest request) {
-    throw new NotImplementedException();
   }
 }

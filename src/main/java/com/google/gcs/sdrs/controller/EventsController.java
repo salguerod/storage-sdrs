@@ -24,7 +24,7 @@ import com.google.gcs.sdrs.controller.validation.ValidationResult;
 import com.google.gcs.sdrs.service.EventsService;
 import com.google.gcs.sdrs.service.impl.EventsServiceImpl;
 import java.util.Collection;
-import java.util.LinkedList;
+import java.util.HashSet;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -71,7 +71,7 @@ public class EventsController extends BaseController {
    * @throws ValidationException when the request is invalid
    */
   private void validateExecutionEvent(ExecutionEventRequest request) throws ValidationException {
-    Collection<ValidationResult> partialValidations = new LinkedList<>();
+    Collection<ValidationResult> partialValidations = new HashSet<>();
 
     if (request.getType() == null) {
       partialValidations.add(ValidationResult.fromString("type must be provided"));

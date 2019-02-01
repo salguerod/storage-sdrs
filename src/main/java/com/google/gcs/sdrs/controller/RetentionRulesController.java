@@ -27,8 +27,8 @@ import com.google.gcs.sdrs.controller.validation.ValidationResult;
 import com.google.gcs.sdrs.enums.RetentionRuleTypes;
 import com.google.gcs.sdrs.service.RetentionRulesService;
 import com.google.gcs.sdrs.service.impl.RetentionRulesServiceImpl;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.Collection;
+import java.util.HashSet;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -111,7 +111,7 @@ public class RetentionRulesController extends BaseController {
    * @throws ValidationException when the request is invalid
    */
   private void validateCreate(RetentionRuleCreateRequest request) throws ValidationException {
-    List<ValidationResult> partialValidations = new LinkedList<>();
+    Collection<ValidationResult> partialValidations = new HashSet<>();
 
     partialValidations.add(validateRetentionPeriod(request.getRetentionPeriod()));
 
@@ -152,7 +152,7 @@ public class RetentionRulesController extends BaseController {
   }
 
   private ValidationResult validateRetentionPeriod(Integer retentionPeriod) {
-    List<String> messages = new LinkedList<>();
+    Collection<String> messages = new HashSet<>();
     if (retentionPeriod == null) {
       messages.add("retentionPeriod must be provided");
     } else {
