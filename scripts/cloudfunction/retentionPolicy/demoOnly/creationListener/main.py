@@ -2,13 +2,12 @@ import flask
 import requests
 import os
 
-def rpoListener(event, context):
+def rpoListener(objectFinalizeEvent, context):
     
-    file = event
     project = os.environ.get('GCP_PROJECT', 'Specified environment variable is not set.')
     print(f"Project : {project}")
-    print(f"Processing file: {file['name']}.")
-    name = file['name']
+    print(f"Processing objectFinalizeEvent: {objectFinalizeEvent['name']}.")
+    name = objectFinalizeEvent['name']
     print( name.rfind('_'))
     splitIndex = name.rfind('_')
     ttl = name[splitIndex+1:]
@@ -18,9 +17,9 @@ def rpoListener(event, context):
     print(prefixIndex)
     prefix = name[0:prefixIndex]
     print(prefix)
-    print('Bucket: {}'.format(file['bucket']))
-    #print(f"Processing full file: {file}")
-    bucket = file['bucket']
+    print('Bucket: {}'.format(objectFinalizeEvent['bucket']))
+    #print(f"Processing full objectFinalizeEvent: {objectFinalizeEvent}")
+    bucket = objectFinalizeEvent['bucket']
     bucketAndPrefix = 'gs://'+bucket+'/'+prefix
     print(bucket)
     print ('data:','invoking REST call')
