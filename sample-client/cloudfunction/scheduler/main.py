@@ -13,7 +13,6 @@ def scheduler_pubsub(pub_sub_event, context):
     
     project = os.environ.get('GCP_PROJECT', 'Specified environment variable is not set.')
     print(f"Project : {project}")
-    print(f"Processing pub_sub_event: {pub_sub_event['name']}.")
     pub_sub_message = base64.b64decode(pub_sub_event['data']).decode('utf-8')
     print(f"Pubsub message : {pub_sub_message}")
     type='POLICY'
